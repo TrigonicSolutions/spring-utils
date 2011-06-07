@@ -1,12 +1,25 @@
 # Spring Framework Utilities
 
-This projects intends to collect frequently requested utilities for and extensions to the Spring Framework.
+This project intends to collect frequently requested utilities for and extensions to the Spring Framework.
 
-## Maven
+## Gradle Usage
 
-com.trigonic : spring-utils : 0.1
+    buildscript {
+        repositories {
+            add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+                name = 'GitHub Spring Utils Repo'
+                addArtifactPattern 'http://cloud.github.com/downloads/AlanKrueger/spring-utils/[module]-[revision].[ext]'
+            }
+            mavenCentral()
+        }
 
-## Usage
+        dependencies {
+            classpath 'com.trigonic:spring-utils:0.1'
+        }
+    }
+
+
+## Spring XML Usage
 
     <?xml version="1.0" encoding="UTF-8"?>
     <beans xmlns="http://www.springframework.org/schema/beans"
