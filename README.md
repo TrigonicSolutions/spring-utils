@@ -4,18 +4,16 @@ This project intends to collect frequently requested utilities for and extension
 
 ## Gradle Usage
 
-    buildscript {
-        repositories {
-            add(new org.apache.ivy.plugins.resolver.URLResolver()) {
-                name = 'GitHub Spring Utils Repo'
-                addArtifactPattern 'http://cloud.github.com/downloads/AlanKrueger/spring-utils/[module]-[revision].[ext]'
-            }
-            mavenCentral()
+    repositories {
+        add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+            name = 'GitHub Spring Utils Repo'
+            addArtifactPattern 'http://cloud.github.com/downloads/AlanKrueger/spring-utils/[module]-[revision].[ext]'
         }
+        mavenCentral()
+    }
 
-        dependencies {
-            classpath 'com.trigonic:spring-utils:0.1'
-        }
+    dependencies {
+        classpath 'com.trigonic:spring-utils:0.1'
     }
 
 
