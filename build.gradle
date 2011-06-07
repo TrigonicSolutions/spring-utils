@@ -30,7 +30,10 @@ repositories {
 }
 
 dependencies {
-    compile 'org.springframework:spring-context:3.0.5.RELEASE'
+    def springVersion = '3.0.5.RELEASE'
+
+    compile "org.springframework:spring-beans:${springVersion}"
+    compile "org.springframework:spring-context:${springVersion}"
 
     testCompile 'junit:junit:4.+'
 
