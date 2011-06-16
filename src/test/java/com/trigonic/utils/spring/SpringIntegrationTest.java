@@ -48,6 +48,11 @@ public class SpringIntegrationTest {
     public void missingButOptional() {
         performTest(null);
     }
+    
+    @Test
+    public void classpathMissingButOptional() {
+        performTest(null);
+    }
 
     void performTest(String which) {
         String testName = new Exception().getStackTrace()[1].getMethodName();
