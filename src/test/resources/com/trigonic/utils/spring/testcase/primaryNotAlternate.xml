@@ -9,5 +9,7 @@
        http://trigonic.com/schema/spring/xutils http://trigonic.com/schema/spring/xutils.xsd">
 
     <xutils:import resource="primary.xml" alternate="alternate.xml" />    
+
+    <xutils:string id="expected">primary</xutils:string>
     
 </beans>

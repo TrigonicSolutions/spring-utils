@@ -16,12 +16,15 @@
 
 package com.trigonic.utils.spring;
 
-import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
+import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
+import org.w3c.dom.Element;
 
-public class XUtilsNamespaceHandler extends NamespaceHandlerSupport {
-    public void init() {
-        registerBeanDefinitionParser("import", new ImportBeanDefinitionParser());
-        registerBeanDefinitionParser("string", new StringBeanDefinitionParser());
-        registerBeanDefinitionParser("null", new NullBeanDefinitionParser());
+/**
+ * Provides a shortcut to defining a root-level bean that's a String.
+ */
+public class NullBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+    @Override
+    protected Class<?> getBeanClass(Element element) {
+        return NullFactoryBean.class;
     }
 }

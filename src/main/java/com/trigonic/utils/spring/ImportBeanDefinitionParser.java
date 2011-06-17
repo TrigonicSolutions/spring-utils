@@ -65,7 +65,7 @@ public class ImportBeanDefinitionParser extends AbstractBeanDefinitionParser {
             Set<Resource> actualResources = ImportHelper.importResource(readerContext.getReader(),
                     readerContext.getResource(), currentLocation);
 
-            if (actualResources.isEmpty() && alternateLocation != null) {
+            if (actualResources.isEmpty() && StringUtils.hasLength(alternateLocation)) {
                 currentLocation = alternateLocation;
                 actualResources = ImportHelper.importResource(readerContext.getReader(), readerContext.getResource(),
                         currentLocation);

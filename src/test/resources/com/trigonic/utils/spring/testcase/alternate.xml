@@ -2,14 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:util="http://www.springframework.org/schema/util"
-    xmlns:xutils="http://trigonic.com/schema/xutils"
+    xmlns:xutils="http://trigonic.com/schema/spring/xutils"
     xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd        
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
-       http://trigonic.com/schema/xutils http://trigonic.com/spring/xutils.xsd">
+       http://trigonic.com/schema/spring/xutils http://trigonic.com/schema/spring/xutils.xsd">
     
-    <bean id="which" class="java.lang.String">
-        <constructor-arg value="alternate" />
-    </bean>
+    <xutils:string id="which">alternate</xutils:string>
+
+    <xutils:string id="expected">alternate</xutils:string>
     
 </beans>

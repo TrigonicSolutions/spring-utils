@@ -9,5 +9,7 @@
        http://trigonic.com/schema/spring/xutils http://trigonic.com/schema/spring/xutils.xsd">
 
     <xutils:import resource="doesNotExist.xml" alternate="alternate.xml" />    
+
+    <xutils:string id="expected">alternate</xutils:string>
     
 </beans>

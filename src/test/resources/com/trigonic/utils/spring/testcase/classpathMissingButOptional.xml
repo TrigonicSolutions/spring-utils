@@ -8,6 +8,8 @@
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
        http://trigonic.com/schema/spring/xutils http://trigonic.com/schema/spring/xutils.xsd">
 
-    <xutils:import resource="classpath:doesNotExist.xml" alternate="classpath:doesNotExist.xml" optional="true" />    
+    <xutils:import resource="classpath:doesNotExist.xml" optional="true" />
+
+    <xutils:null id="expected" class="java.lang.String" />
     
 </beans>
