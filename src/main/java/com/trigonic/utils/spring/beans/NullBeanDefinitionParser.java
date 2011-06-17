@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-package com.trigonic.utils.spring;
+package com.trigonic.utils.spring.beans;
 
-import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
-import org.springframework.beans.factory.xml.ParserContext;
 import org.w3c.dom.Element;
 
 /**
  * Provides a shortcut to defining a root-level bean that's a String.
  */
-public class StringBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+public class NullBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
     @Override
-    protected Class<String> getBeanClass(Element element) {
-        return String.class;
-    }
-
-    @Override
-    protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
-        super.doParse(element, parserContext, builder);
-        builder.addConstructorArgValue(element.getTextContent());
+    protected Class<?> getBeanClass(Element element) {
+        return NullFactoryBean.class;
     }
 }

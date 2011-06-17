@@ -1,4 +1,4 @@
-package com.trigonic.utils.spring;
+package com.trigonic.utils.spring.beans;
 
 import org.springframework.beans.factory.FactoryBean;
 

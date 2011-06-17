@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.trigonic.utils.spring;
+package com.trigonic.utils.spring.beans;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

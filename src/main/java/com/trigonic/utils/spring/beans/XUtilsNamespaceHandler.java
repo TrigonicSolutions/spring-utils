@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package com.trigonic.utils.spring;
+package com.trigonic.utils.spring.beans;
 
-import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
-import org.w3c.dom.Element;
+import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
-/**
- * Provides a shortcut to defining a root-level bean that's a String.
- */
-public class NullBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
-    @Override
-    protected Class<?> getBeanClass(Element element) {
-        return NullFactoryBean.class;
+public class XUtilsNamespaceHandler extends NamespaceHandlerSupport {
+    public void init() {
+        registerBeanDefinitionParser("import", new ImportBeanDefinitionParser());
+        registerBeanDefinitionParser("string", new StringBeanDefinitionParser());
+        registerBeanDefinitionParser("null", new NullBeanDefinitionParser());
     }
 }

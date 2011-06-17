@@ -1,1 +1,1 @@
-http\://trigonic.com/schema/spring/xutils=com.trigonic.utils.spring.XUtilsNamespaceHandler
+http\://trigonic.com/schema/spring/xutils=com.trigonic.utils.spring.beans.XUtilsNamespaceHandler

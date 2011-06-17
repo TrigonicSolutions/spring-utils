@@ -1,22 +1,20 @@
-package com.trigonic.utils.spring;
+package com.trigonic.utils.spring.beans;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized.Parameters;
 import org.reflections.Configuration;
 import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.Scanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.parsing.BeanDefinitionParsingException;
@@ -29,6 +27,7 @@ import com.trigonic.utils.spring.junit.Parameterized;
 import com.trigonic.utils.spring.junit.Parameterized.LabelMaker;
 import com.trigonic.utils.spring.junit.Parameterized.LabelMakerFactory;
 import com.trigonic.utils.spring.junit.Parameterized.SimpleLabelMaker;
+import com.trigonic.utils.spring.reflections.PackageResourcesScanner;
 
 @RunWith(Parameterized.class)
 public class SpringIntegrationTest {
@@ -37,26 +36,6 @@ public class SpringIntegrationTest {
     public SpringIntegrationTest(Resource appContextResource) {
         this.appContextResource = appContextResource;
     }
-
-    /*
-     * @Test public void primary() { performTest("primary"); }
-     * 
-     * @Test public void alternate() { performTest("alternate"); }
-     * 
-     * @Test public void falloverAlternate() { performTest("alternate"); }
-     * 
-     * @Test public void primaryNotAlternate() { performTest("primary"); }
-     * 
-     * @Test(expected=BeanDefinitionParsingException.class) public void neither() { performTest(null); }
-     * 
-     * @Test public void neitherButOptional() { performTest(null); }
-     * 
-     * @Test(expected=BeanDefinitionParsingException.class) public void missing() { performTest(null); }
-     * 
-     * @Test public void missingButOptional() { performTest(null); }
-     * 
-     * @Test public void classpathMissingButOptional() { performTest(null); }
-     */
 
     @Test
     public void performTest() throws IOException {
@@ -90,11 +69,13 @@ public class SpringIntegrationTest {
     public static List<Resource> getParameters() {
         List<Resource> parameters = new ArrayList<Resource>();
 
-        String testcasePackage = SpringIntegrationTest.class.getPackage().getName() + ".testcase";
+        String testcasePackage = SpringIntegrationTest.class.getPackage().getName() + ".integ.testcase";
         Set<URL> urls = ClasspathHelper.getUrlsForPackagePrefix(testcasePackage);
-        Configuration configuration = new ConfigurationBuilder().setUrls(urls).setScanners(new ResourcesScanner());
+        Scanner scanner = new PackageResourcesScanner(testcasePackage);
+        Configuration configuration = new ConfigurationBuilder().setUrls(urls).setScanners(scanner);
         Reflections reflections = new Reflections(configuration);
-        Set<String> testcases = reflections.getResources(Pattern.compile(".*\\.xml"));
+        Set<String> keySet = reflections.getStore().get(PackageResourcesScanner.class).keySet();
+        Set<String> testcases = reflections.getStore().get(PackageResourcesScanner.class, keySet.toArray(new String[keySet.size()]));
 
         for (String testcase : testcases) {
             parameters.add(new ClassPathResource(testcase));

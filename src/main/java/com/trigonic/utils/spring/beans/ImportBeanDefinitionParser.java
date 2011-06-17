@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.trigonic.utils.spring;
+package com.trigonic.utils.spring.beans;
 
 import java.util.Set;
 
