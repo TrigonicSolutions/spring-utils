@@ -5,7 +5,7 @@ apply plugin: 'eclipse'
 
 group = 'com.trigonic'
 artifact = 'spring-utils'
-version = '0.4'
+version = '0.5'
 
 def props = new Properties();
 def localProperties = new File("local.properties")
@@ -35,9 +35,12 @@ dependencies {
 
     compile "org.springframework:spring-beans:${springVersion}"
     compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-web:${springVersion}"
+    compile 'javax.servlet:servlet-api:2.5'
 
     testCompile 'junit:junit:4.+'
     testCompile 'org.reflections:reflections:0.9.+'
+    testCompile 'org.easymock:easymock:3.0'
 
     deployerJars 'org.apache.maven.wagon:wagon-http:1.0-beta-7'
 }
