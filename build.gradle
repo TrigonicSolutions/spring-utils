@@ -42,7 +42,7 @@ dependencies {
     testCompile 'junit:junit:4.+'
     testCompile 'org.reflections:reflections:0.9.+'
     testCompile 'org.easymock:easymock:3.0'
-    testCompile 'com.trigonic:test-utils:0.1'
+    testCompile 'com.trigonic:test-utils:0.2'
 
     deployerJars 'org.apache.maven.wagon:wagon-http:1.0-beta-7'
 }
