@@ -11,7 +11,6 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized.Parameters;
 import org.reflections.Configuration;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanner;
@@ -23,11 +22,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import com.trigonic.utils.spring.context.XmlResourceApplicationContext;
-import com.trigonic.utils.spring.junit.Parameterized;
-import com.trigonic.utils.spring.junit.Parameterized.LabelMaker;
-import com.trigonic.utils.spring.junit.Parameterized.LabelMakerFactory;
-import com.trigonic.utils.spring.junit.Parameterized.SimpleLabelMaker;
 import com.trigonic.utils.spring.reflections.PackageResourcesScanner;
+import com.trigonic.utils.test.junit.DefaultLabelMaker;
+import com.trigonic.utils.test.junit.LabelMaker;
+import com.trigonic.utils.test.junit.LabelMakerFactory;
+import com.trigonic.utils.test.junit.Parameterized;
+import com.trigonic.utils.test.junit.Parameters;
 
 @RunWith(Parameterized.class)
 public class SpringIntegrationTest {
@@ -58,9 +58,14 @@ public class SpringIntegrationTest {
     
     @LabelMakerFactory
     public static LabelMaker getLabelMaker() {
-        return new SimpleLabelMaker() {
+        return new DefaultLabelMaker() {
             public String getLabel(int index, Object[] parameters) {
                 return ((Resource) parameters[0]).getFilename().split("\\.")[0];
+            }
+            
+            @Override
+            public String getTestName(int index, Object[] parameters, String methodName) {
+                return methodName + "[" + getLabel(index, parameters) + "]";
             }
         };
     }
