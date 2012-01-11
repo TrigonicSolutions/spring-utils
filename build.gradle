@@ -79,7 +79,7 @@ uploadArchives {
             name 'spring-utils - Spring Framework Utilities'
             packaging 'jar'
             description 'Provides utilities for and extensions of the Spring Framework'
-            url 'https://github.com/AlanKrueger/spring-utils'
+            url 'https://github.com/TrigonicSolutions/spring-utils'
             inceptionYear '2011'
 
             parent {
@@ -89,8 +89,8 @@ uploadArchives {
             }
      
             scm {
-                url 'scm:git://github.com/AlanKrueger/spring-utils.git'
-                connection 'scm:git://github.com/AlanKrueger/spring-utils.git'
+                url 'scm:git://github.com/TrigonicSolutions/spring-utils.git'
+                connection 'scm:git://github.com/TrigonicSolutions/spring-utils.git'
             }
      
             licenses {
