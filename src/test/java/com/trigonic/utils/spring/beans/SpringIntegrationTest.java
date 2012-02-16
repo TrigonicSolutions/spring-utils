@@ -4,25 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.reflections.Configuration;
-import org.reflections.Reflections;
-import org.reflections.scanners.Scanner;
-import org.reflections.util.ClasspathHelper;
-import org.reflections.util.ConfigurationBuilder;
 import org.springframework.beans.factory.parsing.BeanDefinitionParsingException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.SystemPropertyUtils;
 
 import com.trigonic.utils.spring.context.XmlResourceApplicationContext;
-import com.trigonic.utils.spring.reflections.PackageResourcesScanner;
 import com.trigonic.utils.test.junit.DefaultLabelMaker;
 import com.trigonic.utils.test.junit.LabelMaker;
 import com.trigonic.utils.test.junit.LabelMakerFactory;
@@ -59,6 +52,7 @@ public class SpringIntegrationTest {
     @LabelMakerFactory
     public static LabelMaker getLabelMaker() {
         return new DefaultLabelMaker() {
+            @Override
             public String getLabel(int index, Object[] parameters) {
                 return ((Resource) parameters[0]).getFilename().split("\\.")[0];
             }
@@ -71,21 +65,11 @@ public class SpringIntegrationTest {
     }
 
     @Parameters
-    public static List<Resource> getParameters() {
-        List<Resource> parameters = new ArrayList<Resource>();
-
+    public static Resource[] getParameters() throws IOException {
         String testcasePackage = SpringIntegrationTest.class.getPackage().getName() + ".integ.testcase";
-        Set<URL> urls = ClasspathHelper.getUrlsForPackagePrefix(testcasePackage);
-        Scanner scanner = new PackageResourcesScanner(testcasePackage);
-        Configuration configuration = new ConfigurationBuilder().setUrls(urls).setScanners(scanner);
-        Reflections reflections = new Reflections(configuration);
-        Set<String> keySet = reflections.getStore().get(PackageResourcesScanner.class).keySet();
-        Set<String> testcases = reflections.getStore().get(PackageResourcesScanner.class, keySet.toArray(new String[keySet.size()]));
-
-        for (String testcase : testcases) {
-            parameters.add(new ClassPathResource(testcase));
-        }
-
-        return parameters;
+        String resourcePath = ClassUtils.convertClassNameToResourcePath(SystemPropertyUtils.resolvePlaceholders(testcasePackage));
+        String packageSearchPath = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + resourcePath + "/**/*.xml";
+        ResourcePatternResolver resourcePatternResolver = new PathMatchingResourcePatternResolver();
+        return resourcePatternResolver.getResources(packageSearchPath);
     }
 }
