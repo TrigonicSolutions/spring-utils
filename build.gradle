@@ -5,7 +5,7 @@ apply plugin: 'eclipse'
 
 group = 'com.trigonic'
 artifact = 'spring-utils'
-version = '0.6'
+version = '0.7'
 
 def props = new Properties();
 def localProperties = new File("local.properties")
@@ -18,12 +18,11 @@ configurations {
 
 repositories {
     mavenCentral()
-    mavenRepo urls: 'http://reflections.googlecode.com/svn/repo'
     mavenLocal()
 }
 
 dependencies {
-    def springVersion = '3.0.5.RELEASE'
+    def springVersion = '3.1.0.RELEASE'
 
     compile "org.springframework:spring-beans:${springVersion}"
     compile "org.springframework:spring-context:${springVersion}"
@@ -31,7 +30,6 @@ dependencies {
     compile 'javax.servlet:servlet-api:2.5'
 
     testCompile 'junit:junit:4.+'
-    testCompile 'org.reflections:reflections:0.9.+'
     testCompile 'org.easymock:easymock:3.0'
     testCompile 'com.trigonic:test-utils:0.2'
 
@@ -110,6 +108,6 @@ uploadArchives {
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-6'
+    gradleVersion = '1.0-milestone-8'
 }
 
