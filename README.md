@@ -9,7 +9,7 @@ This project intends to collect frequently requested utilities for and extension
     }
 
     dependencies {
-        classpath 'com.trigonic:spring-utils:0.7'
+        classpath 'com.trigonic:spring-utils:0.8'
     }
 
 
