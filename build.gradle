@@ -1,19 +1,22 @@
 apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'signing'
+apply plugin: 'nexus'
 apply plugin: 'eclipse'
 
 group = 'com.trigonic'
-artifact = 'spring-utils'
-version = '0.7'
+version = '0.8-SNAPSHOT'
 
-def props = new Properties();
-def localProperties = new File("local.properties")
-if (localProperties.exists()) localProperties.withInputStream { props.load(it) }
-props.each { project.setProperty(it.key, it.value) }
+buildscript {
+    repositories {
+        mavenCentral()
+    }
 
-configurations {
-    deployerJars
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-nexus-plugin:0.2'
+    }
+}
+
+project.ext {
+    springVersion = '3.1.2.RELEASE'
 }
 
 repositories {
@@ -22,8 +25,6 @@ repositories {
 }
 
 dependencies {
-    def springVersion = '3.1.0.RELEASE'
-
     compile "org.springframework:spring-beans:${springVersion}"
     compile "org.springframework:spring-context:${springVersion}"
     compile "org.springframework:spring-web:${springVersion}"
@@ -32,8 +33,6 @@ dependencies {
     testCompile 'junit:junit:4.+'
     testCompile 'org.easymock:easymock:3.0'
     testCompile 'com.trigonic:test-utils:0.2'
-
-    deployerJars 'org.apache.maven.wagon:wagon-http:1.0-beta-7'
 }
 
 task packageJavadoc(type: Jar, dependsOn: 'javadoc') {
@@ -52,62 +51,48 @@ artifacts {
     archives packageSources
 }
 
-signing {
-    sign configurations.archives
-}
+modifyPom {
+    project {
+        name 'spring-utils - Spring Framework Utilities'
+        packaging 'jar'
+        description 'Provides utilities for and extensions of the Spring Framework'
+        url 'https://github.com/TrigonicSolutions/spring-utils'
+        inceptionYear '2011'
 
-uploadArchives {
-    repositories.mavenDeployer {
-        configuration = configurations.deployerJars
-
-        beforeDeployment { MavenDeployment deployment -> signPom(deployment) }
-
-        repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
-            authentication(userName: props.get('maven.repository.user'), password: props.get('maven.repository.password'))
+        parent {
+            groupId 'org.sonatype.oss'
+            artifactId 'oss-parent'
+            version '7'
         }
-
-        pom.project {
-            name 'spring-utils - Spring Framework Utilities'
-            packaging 'jar'
-            description 'Provides utilities for and extensions of the Spring Framework'
-            url 'https://github.com/TrigonicSolutions/spring-utils'
-            inceptionYear '2011'
-
-            parent {
-                groupId 'org.sonatype.oss'
-                artifactId 'oss-parent'
-                version '7'
+ 
+        scm {
+            url 'scm:git://github.com/TrigonicSolutions/spring-utils.git'
+            connection 'scm:git://github.com/TrigonicSolutions/spring-utils.git'
+        }
+ 
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
             }
-     
-            scm {
-                url 'scm:git://github.com/TrigonicSolutions/spring-utils.git'
-                connection 'scm:git://github.com/TrigonicSolutions/spring-utils.git'
-            }
-     
-            licenses {
-                license {
-                    name 'The Apache Software License, Version 2.0'
-                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    distribution 'repo'
+        }
+ 
+        developers {
+            developer {
+                id 'akrueger'
+                name 'Alan Krueger'
+                email 'alan@trigonic.com'
+                roles{
+                    role 'Developer'
                 }
-            }
-     
-            developers {
-                developer {
-                    id 'akrueger'
-                    name 'Alan Krueger'
-                    email 'alan@trigonic.com'
-                    roles{
-                        role 'Developer'
-                    }
-                    timezone '-6'
-                }
+                timezone '-6'
             }
         }
     }
 }
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-8'
+    gradleVersion = '1.2'
 }
 
